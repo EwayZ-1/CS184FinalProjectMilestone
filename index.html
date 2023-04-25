@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CS 184 Final Project Milestone Report</title>
+    <style>
+      h2 {
+        text-align: center;
+      }
+      main {
+        margin: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+<h1 align="middle">CS 184 Final Project - Fluid and collision simulation</h1>
+    <h2 align="middle">Justin Shao, Jierui Xu, Tinna Liu, Yiwei Zhou</h2>
+
+      <h2>Milestone</h2>
+      <p>We are almost done with Goal 1. The scene, basic structure, and basic simulation are done.</p>
+
+      <h2>Current Progress</h2>
+      <p>We have implemented the fluid structure and scene at the moment. </p>
+      <ul>
+        <li>Fluid-Structure:
+          <ul>
+            <li>Records all of the particles and their relationships.</li>
+            <li>We will implement more about the rendering and fluid reality simulation later in this class.</li>
+          </ul>
+        </li>
+        <li>Particles:
+          <ul>
+            <li>Particles abstract over the point mass class.</li>
+            <li>They behave as the base component of the fluid.</li>
+          </ul>
+        </li>
+        <li>Cube:
+          <ul>
+            <li>The base scene contains an open box that is built up by five planes.</li>
+            <li>As well as a cube-shaped fluid that is above the open box.</li>
+            <li>Fluids will fall into the box and collisions happen between them due to gravity.</li>
+          </ul>
+        </li>
+      </ul>
+      <p>We have also implemented the physical simulation and constraint part of water.</p>
+      <ul>
+        <li>Particle based simulation</li>
+        <li>Constant density:</li>
+        <ul>
+          <li>We use equations from Muller et al. (2013) to constrain particles behavior (a displacement made for each particle after numerical integration)</li>
+        </ul>
+        <li>Implementation:</li>
+        <ul>
+          <li>find_neighbors: use spatial hash map and only search through particles at neighboring hash (in total 27 of them)</li>
+          <li>calculate_W: use Poly6 kernel function</li>
+          <li>calculate_Ci: use SPH density estimator (sum over mass  * W)</li>
+          <li>calculate_gradient _Ci: using equation (8) from Muller</li>
+        </ul>
+      </ul>
+      
+
+      <h2>Preliminary Results</h2>
+      <p>We have accomplished the following:</p>
+      <ul>
+        <li>Rendering of individual particles</li>
+        <li>Interactions between particles and between particles and the container</li>
+        <li>Simulating fluid particles dropping from the top into a cubic container under the influence of gravity</li>
+        <li>Naive collision function implementation allows particles to stay inside the boundary of the container and prevents particles from overlapping with each other</li>
+        <li>Using sphere rendering code to render each particle, so that they currently support Normal/Phone/Texture shading, etc.</li>
+      </ul>
+
+      <div align="middle">
+        <table style="width:100%">
+          <tr align="center">
+            <td>
+              <img src="images/large_particles.png" align="middle" width="400px" height="350px"/>
+              <figcaption>Particles with large radius</figcaption>
+            </td>
+            <td>
+              <img src="images/small_particles.png" align="middle" width="400px" height="350px"/>
+              <figcaption>Particles with small radius</figcaption>
+            </td>
+          </tr>
+    </table>
+    </div>
+
+      <h2>Reflect on Progress Relative to Your Plan</h2>
+      <p>We have accomplished our first goal of simulating fluid-like particles. We have not got the chance to give the scene a more fluid-like appearance - this may require us to build meshes on the fluid surfaces, which is an important next-step. We also recognized that particle based simulation of water requires significant amount of computing power, so we really need to carefully think about code efficiency throughout the process. find_neighbots are the most time consuming step in our simulation. We might need to try some other data structues besides spatial hash map, or improve on our current hash function to improve overall simulation efficiency.</p>
+
+      <h2>Updated Work Plan</h2>
+      <p>Up to milestone:</p>
+      <ul>
+        <li>Render fluid particles and their simple collision behavior</li>
+        <li>Read paper/textbook to understand fluid particle behavior and find timestep update formulas.</li>
+        <li>Implement incompressiblility constraint to simulate fluid behavior.</li>
+      </ul>
+      <p>After milestone:</p>
+      <ul>
+        <li>Build meshes on the fluid surfaces to give the scene a more fluid-like appearance</li>
+        <li>Implement more about the rendering and fluid reality simulation</li>
+        <li>Improve current code efficiency by trying different data structures (KD-tree etc.), utilizing parallel computing, or restructuring code to reduce redundancy.</li>
+        <li>Incorporate viscosity, artificial pressure, and vorticity.</li>
+      </ul>
+
+      <h2>Future Goals</h2>
+      <p>Our future goals include:</p>
+      <ul>
+        <li>Implementing more complex fluid behaviors, such as surface tension, viscosity, and turbulence</li>
+        <li>Optimizing the simulation to run faster and handle larger volumes of particles</li>
+        <li>Adding interaction with external forces such as wind or a moving object</li>
+        <li>Adding user interaction, such as the ability to add or remove particles or change simulation parameters</li>
+
+    </ul>
+
+    <h2>Challenges</h2>
+    <p>Some challenges we anticipate include:</p>
+    <ul>
+      <li>Optimizing the simulation for performance, especially as the number of particles increases</li>
+      <li>Implementing more complex fluid behaviors while maintaining simulation stability</li>
+      <li>Dealing with collisions between particles and objects, such as the walls of the container or other objects in the scene</li>
+      <li>Designing an intuitive and user-friendly interface for controlling and interacting with the simulation</li>
+    </ul>
+    
+    <h2>Other resouces:</h2>
+    <p>        Video Link: https://youtu.be/eBj3g8jr8Dk <br>
+        Slides Link: https://docs.google.com/presentation/d/1Uif1BA6uXZ3DvAOc3raSMWvWbxcGuno8llHfDAmHOLY/edit?usp=sharing</p>
+  </main>
+</body>
+</html>  
